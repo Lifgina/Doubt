@@ -29,6 +29,7 @@ private:
 	BG bg_; // 背景を表示するクラス
 	PlayerHandView playerHandView_; // プレイヤーの手札を表示するクラス
 
+	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_; // 現在のプレイヤーID
 	int selectedCardIndex_[4]; // 選択されたカードのインデックス
 	int selectedCardCount_; // 選択されたカードの枚数

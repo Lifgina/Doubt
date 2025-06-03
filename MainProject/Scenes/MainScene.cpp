@@ -34,8 +34,10 @@ void MainScene::Load()
 // initialize a variables.
 void MainScene::Initialize()
 {
+	myPlayerID_ = 0; // 自分のプレイヤーIDを設定
+	gameManager_.SetMyPlayerID(myPlayerID_); // 自分のプレイヤーIDを設定
 	gameManager_.Initialize();
-	playerHandView_.Initialize();
+	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
 
 	CardSelectReset();
@@ -52,7 +54,7 @@ void MainScene::Update(float deltaTime)
 {
 	gameManager_.Update();
 	MonitorGameManager();
-	if (isDiscardTurn_ && (turnPlayerID_ == 0)) {
+	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
 		CardSelect();
 	}
 	
@@ -69,7 +71,7 @@ void MainScene::MonitorGameManager()
 
 void MainScene::CardSelect()
 {
-	int playerHands = gameManager_.GetMyPlayerHands(); // 自分の手札の枚数を取得
+	int playerHands = gameManager_.GetPlayerData(turnPlayerID_).GetPlayerHands(); // 自分の手札の枚数を取得
 	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
 	int selectingCardIndex = 0;
 
