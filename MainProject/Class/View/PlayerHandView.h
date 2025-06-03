@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../../HuEngine.h"
+#include "../Model/PlayerData.h"
 
 class PlayerHandView {
 public:
 	void Load();
-	void Initialize();
-	void Update();
+	void UpdatePlayerHands(PlayerData playerdata_);
 
 
 private:
