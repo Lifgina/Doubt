@@ -22,8 +22,9 @@ public:
 	void Update(float deltaTime) override;
 
 	void MonitorGameManager();
-	void CardSelect();
-	void CardSelectReset();
+	void MyPlayerCardSelect();
+	void MyPlayerCardSelectReset();
+	
 
 private:
 	GameManager gameManager_;

@@ -41,7 +41,7 @@ void MainScene::Initialize()
 	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
 
-	CardSelectReset();
+	MyPlayerCardSelectReset();
 }
 
 // releasing resources required for termination.
@@ -56,7 +56,7 @@ void MainScene::Update(float deltaTime)
 	gameManager_.Update();
 	MonitorGameManager();
 	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
-		CardSelect();
+		MyPlayerCardSelect();
 	}
 	
 
@@ -70,7 +70,7 @@ void MainScene::MonitorGameManager()
 	turnPlayerID_ = gameManager_.GetTurnPlayerID(); // 現在の手番のプレイヤーIDを取得
 }
 
-void MainScene::CardSelect()
+void MainScene::MyPlayerCardSelect()
 {
 	int playerHands = gameManager_.GetPlayerData(turnPlayerID_).GetPlayerHands(); // 自分の手札の枚数を取得
 	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
@@ -125,11 +125,14 @@ void MainScene::CardSelect()
 	
 	}
 
-
+	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter)
+	{
+		gameManager_.SetPlayerDiscard(selectedCardIndex_); // 選択されたカードを捨て札に設定
+	}
 
 }
 
-void MainScene::CardSelectReset()
+void MainScene::MyPlayerCardSelectReset()
 {
 	selectingCardIndex_ = 0; // 選択中のカードのインデックスを初期化
 	selectedCardCount_ = 0; // 選択されたカードの枚数を初期化
