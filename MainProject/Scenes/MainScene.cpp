@@ -28,6 +28,10 @@ void MainScene::Load()
 	playerHandView_.Load();
 	bg_.Load();
 	markerView_.Load(); 
+	for (int i = 0; i < 4; i++) {
+		checkerView_[i].Load(); 
+	}
+	
 
 	Scene::Load();
 }
@@ -57,6 +61,10 @@ void MainScene::Update(float deltaTime)
 	MonitorGameManager();
 	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
 		MyPlayerCardSelect();
+	}
+	else
+	{
+		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	}
 	
 
@@ -109,6 +117,7 @@ void MainScene::MyPlayerCardSelect()
 		// 既に選択されているカードでない場合、選択されたカードのインデックスを保存
 
 		if (!isAlreadySelected && selectedCardCount_ < 4) {
+			checkerView_[selectedCardCount_].UpdateChecker(playerHandView_.GetCardPosition(selectingCardIndex_)); // チェッカーの位置を更新
 			selectedCardIndex_[selectedCardCount_] = selectingCardIndex_; // 選択されたカードのインデックスを保存
 			selectedCardCount_++; // 選択されたカードの枚数を増やす
 		}
@@ -116,8 +125,15 @@ void MainScene::MyPlayerCardSelect()
 			// 既に選択されているカードであれば、選択を解除
 			for (int i = 0; i < selectedCardCount_; i++) {
 				if (selectedCardIndex_[i] == selectingCardIndex_) {
-					selectedCardIndex_[i] = selectedCardIndex_[selectedCardCount_ - 1]; // 最後の選択されたカードと入れ替える
-					selectedCardCount_--; // 選択されたカードの枚数を減らす
+					// 最後のチェッカーを現在の位置に移動
+					if (i != selectedCardCount_ - 1) {
+						checkerView_[i].UpdateChecker(playerHandView_.GetCardPosition(selectedCardIndex_[selectedCardCount_ - 1]));
+					}
+					checkerView_[selectedCardCount_ - 1].CheckerDelete(); // 最後のチェッカーを削除
+
+					// 配列も最後の要素で上書き
+					selectedCardIndex_[i] = selectedCardIndex_[selectedCardCount_ - 1];
+					selectedCardCount_--;
 					break;
 				}
 			}
