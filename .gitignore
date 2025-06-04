@@ -361,3 +361,25 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# HuEngine
+.vs/
+Assets/Fonts/unitettc.exe
+Assets/Fonts/*.ttc
+Assets/Shaders/
+Assets/log.txt
+Build/
+Engine/
+MainProject/External/
+MainProject/HEToolKit/
+MainProject/Obj/
+MainProject/Resources/
+MainProject/Resources/hunyan.ico
+MainProject/Resources/resource.aps
+MainProject/Scenes/TemplateScene/
+MainProject/HuEngine.h
+MainProject/InputSystem.h
+MainProject/stdafx.*
+MainProject/targetver.h
+packages/
+HuEngine.sln
