@@ -32,41 +32,44 @@ void GameManager::Update()
 }
 void GameManager::DiscardTurn()
 {
-	int discardIndex_[4] = { -1, -1, -1, -1 }; // 捨て札のインデックスを初期化
-	//
+	int discardIndex_[4] = { -1, -1, -1, -1 };
 	if (turnPlayerID_ == 0) {
-		//isInputed_が立っていない場合はここで処理を止めておく
 		if (!isInputed_) {
-			return; // 入力がまだされていない場合は処理を中断
+			return;
 		}
 		for (int i = 0; i < 4; ++i) {
-			discardIndex_[i] = playerDiscardIndex_[i]; // プレイヤーが選択したカードのインデックスを取得
+			discardIndex_[i] = playerDiscardIndex_[i];
 		}
 	}
 	else {
 		int hands = player_[turnPlayerID_].GetPlayerHands();
-		CardData handcards[52]; // 手札のカードを格納する配列
+		CardData handcards[52];
 		for (int i = 0; i < hands; ++i) {
-			handcards[i] = player_[turnPlayerID_].GetCard(i); // 手札のカードを取得
+			handcards[i] = player_[turnPlayerID_].GetCard(i);
 		}
-		randomCardSelect_.CardSelect(hands,doubtJudgeNo_,handcards); // ランダムにカードを選択
-		for (int i = 0; i < 4; ++i) {	
-			discardIndex_[i] = randomCardSelect_.GetSelectedCardIndex(i); // 選択されたカードのインデックスを取得
+		randomCardSelect_.CardSelect(hands, doubtJudgeNo_, handcards);
+		for (int i = 0; i < 4; ++i) {
+			discardIndex_[i] = randomCardSelect_.GetSelectedCardIndex(i);
 		}
 	}
-	// 選択されたカードを捨て札に追加
+	// インデックスの大きい順に削除
+	std::vector<int> sortedIndices;
 	for (int i = 0; i < 4; ++i) {
 		if (discardIndex_[i] != -1) {
-			discardManager_.SetDiscard(player_[turnPlayerID_].GetCard(discardIndex_[i]));
-			player_[turnPlayerID_].DisCard(discardIndex_[i]);
+			sortedIndices.push_back(discardIndex_[i]);
 		}
 	}
-	isDiscardTurn_ = false; // 捨て札のターンを終了
+	std::sort(sortedIndices.rbegin(), sortedIndices.rend());
+	for (int idx : sortedIndices) {
+		discardManager_.SetDiscard(player_[turnPlayerID_].GetCard(idx));
+		player_[turnPlayerID_].DisCard(idx);
+	}
+	isDiscardTurn_ = false;
 }
 
-void GameManager::SetPlayerDiscard(int cardIndex[])
+void GameManager::SetPlayerDiscard(int cardIndex[4])
 {
-	for (int i = 0; i < playerCount_; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		playerDiscardIndex_[i] = cardIndex[i];
 	}
 	isInputed_ = true; // 入力されたフラグを立てる

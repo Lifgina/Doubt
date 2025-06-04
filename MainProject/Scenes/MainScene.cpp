@@ -124,11 +124,13 @@ void MainScene::MyPlayerCardSelect()
 		}
 	
 	}
-
+	if (selectedCardCount_ >= 1) {
 	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter)
 	{
 		gameManager_.SetPlayerDiscard(selectedCardIndex_); // 選択されたカードを捨て札に設定
 	}
+	}
+
 
 }
 

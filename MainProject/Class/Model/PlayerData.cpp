@@ -15,7 +15,7 @@ void PlayerData::DisCard(int index) {
 		return; // 無効なインデックス
 	}
 	// 手札からカードを削除
-	for (int i = index; i < playerHands_ - 1; ++i) {
+	for (int i = index; i < playerHands_ ; ++i) {
 		hand_[i] = hand_[i + 1];
 	}
 	--playerHands_; // 手札の枚数を減らす

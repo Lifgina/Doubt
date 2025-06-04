@@ -18,7 +18,7 @@ public:
 	void DoubtTurn();
 	void DoubtCheck();
 	void Penalty();
-	void SetPlayerDiscard(int cardIndex[]);
+	void SetPlayerDiscard(int cardIndex[4]);
 	int SetMyPlayerID(int playerID) {
 		myPlayerID_ = playerID;
 		return myPlayerID_; // İ’è‚µ‚½ƒvƒŒƒCƒ„[ID‚ğ•Ô‚·
