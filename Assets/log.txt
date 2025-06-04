@@ -1,4 +1,4 @@
-Created GraphicsDevice_DX12 (376 ms)
+Created GraphicsDevice_DX12 (317 ms)
 Adapter: NVIDIA GeForce RTX 3060 Laptop GPU
 he::gamepad Initialized (0 ms)
 InputSystem Initialized (1 ms)
@@ -17,26 +17,26 @@ No embedded shaders found, shaders will be compiled at runtime if needed.
 	Shader source path: Shaders/
 	Shader binary path: Shaders/.cso/hlsl6/
 
-wi::audio Initialized [XAudio2] (140 ms)
+wi::audio Initialized [XAudio2] (130 ms)
 
-wi::jobsystem Initialized with 16 cores in 15.42 ms
+wi::jobsystem Initialized with 16 cores in 3.60 ms
 	High priority threads: 15
 	Low priority threads: 14
 	Streaming threads: 1
 
-wi::font Initialized (9 ms)
 wi::physics Initialized [Jolt Physics 5.3.0] (1 ms)
-wi::texturehelper Initialized (10 ms)
-wi::image Initialized (27 ms)
-wi::TrailRenderer Initialized (15 ms)
-wi::GPUBVH Initialized (23 ms)
-wi::gpusortlib Initialized (316 ms)
-wi::Ocean Initialized (499 ms)
-wi::HairParticleSystem Initialized (664 ms)
-wi::EmittedParticleSystem Initialized (855 ms)
-wi::renderer Initialized (1173 ms)
+wi::font Initialized (7 ms)
+wi::TrailRenderer Initialized (6 ms)
+wi::texturehelper Initialized (24 ms)
+wi::GPUBVH Initialized (24 ms)
+wi::image Initialized (25 ms)
+wi::gpusortlib Initialized (59 ms)
+wi::Ocean Initialized (68 ms)
+wi::HairParticleSystem Initialized (80 ms)
+wi::EmittedParticleSystem Initialized (650 ms)
+wi::renderer Initialized (731 ms)
 
-[wi::initializer] HuEngine Initialized (1330 ms)
+[wi::initializer] HuEngine Initialized (866 ms)
 Created envprobe depth buffer for request
 	Resolution = 64 * 64 * 6
 	Sample Count = 1

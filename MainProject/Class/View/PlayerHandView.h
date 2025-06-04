@@ -7,6 +7,8 @@ class PlayerHandView {
 public:
 	void Load();
 	void UpdatePlayerHands(PlayerData playerdata_);
+	HE::Math::Vector2 GetCardPosition(int index);
+	
 
 
 private:

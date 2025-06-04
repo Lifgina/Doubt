@@ -115,6 +115,9 @@
     <ClInclude Include="Class\View\PlayerHandView.h">
       <Filter>Class\View</Filter>
     </ClInclude>
+    <ClInclude Include="Class\View\MarkerView.h">
+      <Filter>Class\View</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +169,9 @@
       <Filter>Class\Model</Filter>
     </ClCompile>
     <ClCompile Include="Class\View\PlayerHandView.cpp">
+      <Filter>Class\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\View\MarkerView.cpp">
       <Filter>Class\View</Filter>
     </ClCompile>
   </ItemGroup>

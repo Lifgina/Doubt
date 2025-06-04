@@ -27,6 +27,7 @@ void MainScene::Load()
 	gameManager_.Load();
 	playerHandView_.Load();
 	bg_.Load();
+	markerView_.Load(); 
 
 	Scene::Load();
 }
@@ -73,28 +74,34 @@ void MainScene::CardSelect()
 {
 	int playerHands = gameManager_.GetPlayerData(turnPlayerID_).GetPlayerHands(); // 自分の手札の枚数を取得
 	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
-	int selectingCardIndex = 0;
+    selectingCardIndex_ ;
+	markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 
-	if (gamepad_.leftStick.x > stickDeadZone_ || InputSystem.Keyboard.isPressed.Right) {
-		selectingCardIndex += 1; // 右に移動
+
+	if (gamepad_.leftStick.x > stickDeadZone_ || InputSystem.Keyboard.wasPressedThisFrame.Right) {
+		selectingCardIndex_ += 1; // 右に移動
+		markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 	}
-	else if (gamepad_.leftStick.x < -stickDeadZone_ || InputSystem.Keyboard.isPressed.Left) {
-		selectingCardIndex -= 1; // 左に移動
+	else if (gamepad_.leftStick.x < -stickDeadZone_ || InputSystem.Keyboard.wasPressedThisFrame.Left) {
+		selectingCardIndex_ -= 1; // 左に移動
+		markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 	}
-	if (selectingCardIndex < 0)
+	if (selectingCardIndex_ < 0)
 	{
-		selectingCardIndex = playerHands - 1; // 左端を超えたら右端に戻る
+		selectingCardIndex_ = playerHands - 1; // 左端を超えたら右端に戻る
+		markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 	}
-	else if (selectingCardIndex >= playerHands)
+	else if (selectingCardIndex_ >= playerHands)
 	{
-		selectingCardIndex = 0; // 右端を超えたら左端に戻る
+		selectingCardIndex_ = 0; // 右端を超えたら左端に戻る
+		markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 	}
 
 	if (gamepad_.wasPressedThisFrame.Button2 || InputSystem.Keyboard.wasPressedThisFrame.Space) {
 		//対応するボタンが押されたとき、selectedCardIndexの数値とselectedCardIndexの値を比較
 		bool isAlreadySelected = false;
 		for (int i = 0; i < selectedCardCount_; i++) {
-			if (selectedCardIndex_[i] == selectingCardIndex) {
+			if (selectedCardIndex_[i] == selectingCardIndex_) {
 				isAlreadySelected = true; // 既に選択されているカードである
 				break;
 			}
@@ -102,13 +109,13 @@ void MainScene::CardSelect()
 		// 既に選択されているカードでない場合、選択されたカードのインデックスを保存
 
 		if (!isAlreadySelected && selectedCardCount_ < 4) {
-			selectedCardIndex_[selectedCardCount_] = selectingCardIndex; // 選択されたカードのインデックスを保存
+			selectedCardIndex_[selectedCardCount_] = selectingCardIndex_; // 選択されたカードのインデックスを保存
 			selectedCardCount_++; // 選択されたカードの枚数を増やす
 		}
 		else if (isAlreadySelected) {
 			// 既に選択されているカードであれば、選択を解除
 			for (int i = 0; i < selectedCardCount_; i++) {
-				if (selectedCardIndex_[i] == selectingCardIndex) {
+				if (selectedCardIndex_[i] == selectingCardIndex_) {
 					selectedCardIndex_[i] = selectedCardIndex_[selectedCardCount_ - 1]; // 最後の選択されたカードと入れ替える
 					selectedCardCount_--; // 選択されたカードの枚数を減らす
 					break;
@@ -124,9 +131,11 @@ void MainScene::CardSelect()
 
 void MainScene::CardSelectReset()
 {
+	selectingCardIndex_ = 0; // 選択中のカードのインデックスを初期化
 	selectedCardCount_ = 0; // 選択されたカードの枚数を初期化
 	for (int i = 0; i < 4; i++) {
 		selectedCardIndex_[i] = -1; // 選択されたカードのインデックスを初期化
 	}
 }
+
 

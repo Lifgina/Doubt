@@ -112,6 +112,7 @@
     <ClInclude Include="Class\Model\PlayerData.h" />
     <ClInclude Include="Class\Model\RandomCardSelect.h" />
     <ClInclude Include="Class\View\BG.h" />
+    <ClInclude Include="Class\View\MarkerView.h" />
     <ClInclude Include="Class\View\PlayerHandView.h" />
     <ClInclude Include="HEToolKit\cppcoro\cppcoro.h" />
     <ClInclude Include="HEToolKit\DirectXTK\Bezier.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Class\Model\PlayerData.cpp" />
     <ClCompile Include="Class\Model\RandomCardSelect.cpp" />
     <ClCompile Include="Class\View\BG.cpp" />
+    <ClCompile Include="Class\View\MarkerView.cpp" />
     <ClCompile Include="Class\View\PlayerHandView.cpp" />
     <ClCompile Include="HEToolKit\DirectXTK\Keyboard.cpp" />
     <ClCompile Include="HEToolKit\DirectXTK\Mouse.cpp" />

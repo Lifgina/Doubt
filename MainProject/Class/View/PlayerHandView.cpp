@@ -34,3 +34,12 @@ void PlayerHandView::UpdatePlayerHands(PlayerData playerdata_)
 	}
 
 }
+
+Math::Vector2 PlayerHandView::GetCardPosition(int index)
+{
+	// 指定されたインデックスのカードの位置を取得
+	if (index < 0 || index >= 52) {
+		return Math::Vector2(-1000.0f, -1000.0f); // 無効なインデックスの場合は画面外の位置を返す
+	}
+	return Math::Vector2(playerHandSprites_[index].params.pos.x, playerHandSprites_[index].params.pos.y); // カードの位置を返す
+}
