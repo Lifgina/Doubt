@@ -17,8 +17,8 @@ public:
 	void Update();
 	void DiscardTurn();
 	void DoubtTurn();
-	void DoubtCheck();
-	void Penalty();
+	bool DoubtCheck(int doubtPlayerID, int discardPlayerID);
+	void Penalty(int penaltyPlayer);
 	void SetPlayerDiscard(int cardIndex[4]);
 	void SetPlayerDoDoubt(bool isDoubt);
 	int SetMyPlayerID(int playerID) {
@@ -39,6 +39,7 @@ private:
 
 	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_ ; // 現在の手番のプレイヤーID
+	int discardPlayerID_; // 捨て札を捨てたプレイヤーのID
 	int doubtJudgeNo_; //ダウト判定のカード番号
 
 	bool isDiscardTurn_ ; // 捨て札を捨てる状況かどうか

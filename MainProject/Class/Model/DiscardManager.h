@@ -8,6 +8,8 @@ public:
 	void SetDiscard(CardData nowdiscard);
 	CardData GetCurrentDisCards(int index) const { return currentDiscard_[index]; } // ’¼‘O‚ÌÌ‚ÄD‚ğæ“¾ 
 	CardData GetDiscard(int index) const { return discard_[index]; } // Ì‚ÄD‚ğæ“¾
+	int GetDiscardCount() const { return discardCount_; } // Ì‚ÄD‚Ì–‡”‚ğæ“¾
+	int GetCurrentDiscardCount() const { return currentDiscardCount_; } // Œ»İ‚ÌÌ‚ÄD‚Ì–‡”‚ğæ“¾
 	void ClearDiscard();  // Ì‚ÄD‚ğƒNƒŠƒA
 	void ClearCurrentDiscard();// Œ»İ‚ÌÌ‚ÄD‚Ì–‡”‚ğƒŠƒZƒbƒg
 
