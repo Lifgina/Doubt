@@ -32,39 +32,19 @@ void GameManager::Update()
 }
 void GameManager::DiscardTurn()
 {
-	int discardIndex_[4] = { -1, -1, -1, -1 };
-	if (turnPlayerID_ == 0) {
-		if (!isInputed_) {
-			return;
-		}
-		for (int i = 0; i < 4; ++i) {
-			discardIndex_[i] = playerDiscardIndex_[i];
-		}
-	}
-	else {
-		int hands = player_[turnPlayerID_].GetPlayerHands();
-		CardData handcards[52];
-		for (int i = 0; i < hands; ++i) {
-			handcards[i] = player_[turnPlayerID_].GetCard(i);
-		}
-		randomCardSelect_.CardSelect(hands, doubtJudgeNo_, handcards);
-		for (int i = 0; i < 4; ++i) {
-			discardIndex_[i] = randomCardSelect_.GetSelectedCardIndex(i);
-		}
-	}
-	// インデックスの大きい順に削除
-	std::vector<int> sortedIndices;
-	for (int i = 0; i < 4; ++i) {
-		if (discardIndex_[i] != -1) {
-			sortedIndices.push_back(discardIndex_[i]);
-		}
-	}
-	std::sort(sortedIndices.rbegin(), sortedIndices.rend());
-	for (int idx : sortedIndices) {
-		discardManager_.SetDiscard(player_[turnPlayerID_].GetCard(idx));
-		player_[turnPlayerID_].DisCard(idx);
-	}
-	isDiscardTurn_ = false;
+	cardDiscarder_.Discard(
+		player_,
+		playerCount_,
+		turnPlayerID_,
+		myPlayerID_,
+		doubtJudgeNo_,
+		playerDiscardIndex_,
+		isInputed_,
+		discardManager_,
+		randomCardSelect_,
+		isInputed_,
+		isDiscardTurn_
+	);
 }
 
 void GameManager::SetPlayerDiscard(int cardIndex[4])
@@ -77,18 +57,25 @@ void GameManager::SetPlayerDiscard(int cardIndex[4])
 
 void GameManager::DoubtTurn()
 {
-	bool isDoDoubt = false; // ダウトをするかどうかのフラグ
-	if (turnPlayerID_ == 0) {
-		
-	}
-	else {
-		
+	//ダウトターンの処理
+	for(int i=0;i<playerCount_;i++){
+		turnPlayerID_ = (turnPlayerID_ + 1) % playerCount_; // 次のプレイヤーにターンを移す
+		if (turnPlayerID_ == myPlayerID_) {
+			if (!isInputed_) {
+				return;
+			}
+		}
+		else {
+
+		}
 	}
 
-	if (isDoDoubt) {
-		DoubtCheck();
-	}
+}
 
+void GameManager::SetPlayerDoDoubt(bool isDoubt)
+{
+	isDoubt_ = isDoubt; // ダウトのフラグを設定
+	isInputed_ = true; // 入力されたフラグを立てる
 }
 
 void GameManager::DoubtCheck()
@@ -109,5 +96,5 @@ void GameManager::DoubtCheck()
 
 void GameManager::Penalty()
 {
-
+   
 }

@@ -118,6 +118,9 @@
     <ClInclude Include="Class\View\MarkerView.h">
       <Filter>Class\View</Filter>
     </ClInclude>
+    <ClInclude Include="Class\View\CheckerView.h">
+      <Filter>Class\View</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -172,6 +175,9 @@
       <Filter>Class\View</Filter>
     </ClCompile>
     <ClCompile Include="Class\View\MarkerView.cpp">
+      <Filter>Class\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\View\CheckerView.cpp">
       <Filter>Class\View</Filter>
     </ClCompile>
   </ItemGroup>

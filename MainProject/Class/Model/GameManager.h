@@ -3,6 +3,7 @@
 #include "../../HuEngine.h"
 #include "CardDistributer.h"
 #include "DiscardManager.h"
+#include "CardDiscarder.h"
 #include "RandomCardSelect.h"
 #include "PlayerData.h"
 
@@ -19,6 +20,7 @@ public:
 	void DoubtCheck();
 	void Penalty();
 	void SetPlayerDiscard(int cardIndex[4]);
+	void SetPlayerDoDoubt(bool isDoubt);
 	int SetMyPlayerID(int playerID) {
 		myPlayerID_ = playerID;
 		return myPlayerID_; // 設定したプレイヤーIDを返す
@@ -42,7 +44,10 @@ private:
 	bool isDiscardTurn_ ; // 捨て札を捨てる状況かどうか
 	bool isInputed_ ; // 入力されたかどうか
 
+	bool isDoubt_;
+
 	CardDistributer cardDistributer_; // カードの管理を行うクラス
+	CardDiscarder cardDiscarder_; // カードの捨てる処理を行うクラス
 	DiscardManager discardManager_; // 捨て札の管理を行うクラス
 	RandomCardSelect randomCardSelect_; // ランダムカード選択を行うクラス
 	
