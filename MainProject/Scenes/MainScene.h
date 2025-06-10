@@ -6,6 +6,7 @@
 #include "../Class/View/PlayerHandView.h"
 #include "../Class/View/MarkerView.h"
 #include "../Class/View/CheckerView.h"
+#include "../Class/View/CardCountView.h"
 
 
 class MainScene : public HE::Scene
@@ -33,6 +34,7 @@ private:
 	PlayerHandView playerHandView_; // プレイヤーの手札を表示するクラス
 	MarkerView markerView_; // マーカーを表示するクラス
 	CheckerView checkerView_[4]; // チェッカーを表示するクラス
+	CardcountView cardCountView_[4]; // カードの枚数を表示するクラス
 
 	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_; // 現在のプレイヤーID

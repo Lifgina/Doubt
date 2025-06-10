@@ -31,6 +31,9 @@ void MainScene::Load()
 	for (int i = 0; i < 4; i++) {
 		checkerView_[i].Load(); 
 	}
+	for  (int i = 0; i < 4; i++) {
+		cardCountView_[i].Load(); // カードの枚数を表示するクラスのロード
+	}
 	
 
 	Scene::Load();
@@ -44,6 +47,10 @@ void MainScene::Initialize()
 	gameManager_.Initialize();
 	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
+	cardCountView_[0].Initialize(Math::Vector2(800.0f,360.0f)); 
+	cardCountView_[1].Initialize(Math::Vector2(10.0, 200.0f));
+	cardCountView_[2].Initialize(Math::Vector2(400.0f, 10.0f));
+	cardCountView_[3].Initialize(Math::Vector2(1170.0f, 200.0f));
 
 	MyPlayerCardSelectReset();
 }
@@ -65,6 +72,9 @@ void MainScene::Update(float deltaTime)
 	else
 	{
 		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
+	}
+	for (int i = 0; i < 4; i++) {
+		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
 	}
 	
 
