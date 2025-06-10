@@ -14,6 +14,13 @@ void GameManager::Load()
 
 void GameManager::Initialize()
 {
+	myPlayerID_ = 0; // 自分のプレイヤーIDを設定
+	discardPlayerID_ = -1; // 初期状態では捨て札を捨てたプレイヤーは未定義
+	doubtplayerID_ = -1; // 初期状態ではダウトを行うプレイヤーは未定義
+	isDoubt_ = false; // 初期状態ではダウトを行わない
+	for (int i = 0; i < 4; i++) {
+		playerDiscardIndex_[i] = -1; // 初期状態ではプレイヤーの捨て札インデックスは未定義
+	}
 	turnPlayerID_ = myPlayerID_;
 	cardDistributer_.DistributeCards(player_, playerCount_);
 	doubtJudgeNo_ =1;
