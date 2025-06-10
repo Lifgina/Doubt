@@ -26,9 +26,9 @@ void PlayerDoubtView::Load()
 void PlayerDoubtView::ShowDoubtMenu()
 {
 
-	doubtText_[0].SetText("ダウトする?"); // ダウトメニューの位置を設定
-	doubtText_[1].SetText("↑:ダウト");
-	doubtText_[2].SetText("↓:スルー");
+	doubtText_[0].SetText(L"ダウトする?"); // ダウトメニューの位置を設定
+	doubtText_[1].SetText(L"↑:ダウト");
+	doubtText_[2].SetText(L"↓:スルー");
 }
 
 void PlayerDoubtView::HideDoubtMenu()
