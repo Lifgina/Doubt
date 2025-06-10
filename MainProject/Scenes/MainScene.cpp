@@ -183,11 +183,14 @@ void MainScene::MyPlayerCardSelectReset()
 
 void MainScene::MyDoubtSelect()
 {
+	playerDoubtView_.ShowDoubtMenu(); // ダウトメニューを表示
 	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
-	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter) {
+	if (gamepad_.leftStick.y>=0.3 || InputSystem.Keyboard.wasPressedThisFrame.Up) {
+		playerDoubtView_.HideDoubtMenu(); // ダウトメニューを非表示
 		gameManager_.SetPlayerDoDoubt(true); // ダウトを行う
 	}
-	else if (gamepad_.wasPressedThisFrame.Button2 || InputSystem.Keyboard.wasPressedThisFrame.Space) {
+	else if (gamepad_.leftStick.y<=-0.3 || InputSystem.Keyboard.wasPressedThisFrame.Down) {
+		playerDoubtView_.HideDoubtMenu(); // ダウトメニューを非表示
 		gameManager_.SetPlayerDoDoubt(false); // ダウトを行わない
 	}
 }

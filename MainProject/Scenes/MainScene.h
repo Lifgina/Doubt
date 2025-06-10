@@ -8,6 +8,7 @@
 #include "../Class/View/CheckerView.h"
 #include "../Class/View/CardCountView.h"
 #include "../Class/View/WinnerView.h"
+#include "../Class/View/PlayerDoubtView.h"
 
 
 class MainScene : public HE::Scene
@@ -38,6 +39,7 @@ private:
 	CheckerView checkerView_[4]; // チェッカーを表示するクラス
 	CardcountView cardCountView_[4]; // カードの枚数を表示するクラス
 	WinnerView winnerView_; // 勝者を表示するクラス
+	PlayerDoubtView playerDoubtView_; // ダウトのメニューを表示するクラス
 
 	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_; // 現在のプレイヤーID
