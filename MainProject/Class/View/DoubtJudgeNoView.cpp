@@ -19,12 +19,12 @@ void DoubtJudgeNoView::Load()
 
 void DoubtJudgeNoView::Initialize()
 {
-	sprite_.params.pos = Math::Vector2(800.0f, 500.0f); // スプライトの位置を設定
-	font_.params.posX = 875.0f; // フォントの位置を設定
-	font_.params.posY = 550.0f; // フォントの位置を設定
+	sprite_.params.pos = Math::Vector2(700.0f, 200.0f); // スプライトの位置を設定
+	font_.params.posX = 700.0f+75.0f/2; // フォントの位置を設定
+	font_.params.posY = 200.0f+50.0f; // フォントの位置を設定
 }
 
 void DoubtJudgeNoView::UpdateDoubtJudgeNo(int doubtJudgeNo)
 {
-	font_.SetText(std::to_string(doubtJudgeNo + 1)); // ダウト判定のカード番号を表示
+	font_.SetText(std::to_string(doubtJudgeNo)); // ダウト判定のカード番号を表示
 }
