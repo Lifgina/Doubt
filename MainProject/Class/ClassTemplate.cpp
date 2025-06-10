@@ -1,5 +1,5 @@
 //
-// ClassTemplete.cpp
+// ClassTemplate.cpp
 //
 
 #include "ClassTemplate.h"
