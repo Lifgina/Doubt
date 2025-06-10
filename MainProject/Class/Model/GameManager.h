@@ -28,6 +28,7 @@ public:
 	bool GetIsDiscardTurn() const { return isDiscardTurn_; } // 捨て札のターンかどうかを取得
 	bool GetIsInputed() const { return isInputed_; } // 入力がされたかどうかを取得
 	int GetTurnPlayerID() const { return turnPlayerID_; } // 現在の手番のプレイヤーIDを取得
+	int GetDoubtJudgeNo() const { return doubtJudgeNo_; } // ダウト判定のカード番号を取得
 	int GetDoubtPlayerID() const { return doubtplayerID_; } // ダウトを行うプレイヤーのIDを取得
 	int GetWinnerPlayerID() const { return winnerPlayerID_; } // 勝利したプレイヤーのIDを取得
 	PlayerData GetPlayerData(int playerID) const { return player_[playerID]; } // 指定されたプレイヤーのデータを取得

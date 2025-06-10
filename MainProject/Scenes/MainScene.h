@@ -9,6 +9,7 @@
 #include "../Class/View/CardCountView.h"
 #include "../Class/View/WinnerView.h"
 #include "../Class/View/PlayerDoubtView.h"
+#include "../Class/View/DoubtJudgeNoView.h"
 
 
 class MainScene : public HE::Scene
@@ -40,11 +41,13 @@ private:
 	CardcountView cardCountView_[4]; // カードの枚数を表示するクラス
 	WinnerView winnerView_; // 勝者を表示するクラス
 	PlayerDoubtView playerDoubtView_; // ダウトのメニューを表示するクラス
+	DoubtJudgeNoView doubtJudgeNoView_; // ダウト判定のカード番号を表示するクラス
 
 	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_; // 現在のプレイヤーID
 	int doubtPlayerID_; // ダウトを行うプレイヤーのID
 	int winnerID_; // 勝者のプレイヤーID
+	int doubtJudgeNo_; // ダウト判定のカード番号
 	int selectingCardIndex_; // 選択中のカードのインデックス
 	int selectedCardIndex_[4]; // 選択されたカードのインデックス
 	int selectedCardCount_; // 選択されたカードの枚数

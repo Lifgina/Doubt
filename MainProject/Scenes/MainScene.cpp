@@ -29,6 +29,8 @@ void MainScene::Load()
 	bg_.Load();
 	markerView_.Load();
 	winnerView_.Load(); 
+	playerDoubtView_.Load(); 
+	doubtJudgeNoView_.Load(); 
 	for (int i = 0; i < 4; i++) {
 		checkerView_[i].Load(); 
 	}
@@ -48,6 +50,7 @@ void MainScene::Initialize()
 	gameManager_.Initialize();
 	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
+	doubtJudgeNoView_.Initialize(); 
 	cardCountView_[0].Initialize(Math::Vector2(800.0f,360.0f)); 
 	cardCountView_[1].Initialize(Math::Vector2(10.0, 200.0f));
 	cardCountView_[2].Initialize(Math::Vector2(400.0f, 10.0f));
@@ -67,6 +70,10 @@ void MainScene::Update(float deltaTime)
 {
 	gameManager_.Update();
 	MonitorGameManager();
+	for (int i = 0; i < 4; i++) {
+		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
+	}
+	doubtJudgeNoView_.UpdateDoubtJudgeNo(doubtJudgeNo_); // ダウト判定のカード番号を更新
 	if (winnerID_ != -1) {
 		winnerView_.ShowWinner(winnerID_); // 勝者を表示
 		//ここに後でタイトルへ戻る処理を追加する
@@ -78,16 +85,7 @@ void MainScene::Update(float deltaTime)
 	else if(doubtPlayerID_ == myPlayerID_){
 		MyDoubtSelect();
 	}
-	else
-	{
-		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
-	}
-
-	for (int i = 0; i < 4; i++) {
-		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
-	}
 	
-
 	Scene::Update(deltaTime);
 }
 
@@ -97,6 +95,7 @@ void MainScene::MonitorGameManager()
 	isInputed_ = gameManager_.GetIsInputed(); // 入力がされたかどうかを取得
 	turnPlayerID_ = gameManager_.GetTurnPlayerID(); // 現在の手番のプレイヤーIDを取得
 	doubtPlayerID_ = gameManager_.GetDoubtPlayerID(); // ダウトを行うプレイヤーのIDを取得
+	doubtJudgeNo_ = gameManager_.GetDoubtJudgeNo(); // ダウト判定のカード番号を取得
 	winnerID_ = gameManager_.GetWinnerPlayerID(); // 勝者のプレイヤーIDを取得
 }
 
@@ -165,6 +164,7 @@ void MainScene::MyPlayerCardSelect()
 	if (selectedCardCount_ >= 1) {
 	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter)
 	{
+		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 		for (int i = 0; i < 4; i++) {
 			checkerView_[i].CheckerDelete(); // チェッカーを削除
 		}
