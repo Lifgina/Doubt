@@ -27,7 +27,8 @@ void MainScene::Load()
 	gameManager_.Load();
 	playerHandView_.Load();
 	bg_.Load();
-	markerView_.Load(); 
+	markerView_.Load();
+	winnerView_.Load(); 
 	for (int i = 0; i < 4; i++) {
 		checkerView_[i].Load(); 
 	}
@@ -66,13 +67,22 @@ void MainScene::Update(float deltaTime)
 {
 	gameManager_.Update();
 	MonitorGameManager();
+	if (winnerID_ != -1) {
+		winnerView_.ShowWinner(winnerID_); // 勝者を表示
+		//ここに後でタイトルへ戻る処理を追加する
+		return; // 勝者が決まったので終了
+	}
 	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
 		MyPlayerCardSelect();
+	}
+	else if(doubtPlayerID_ == myPlayerID_){
+		MyDoubtSelect();
 	}
 	else
 	{
 		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	}
+
 	for (int i = 0; i < 4; i++) {
 		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
 	}
@@ -86,6 +96,8 @@ void MainScene::MonitorGameManager()
 	isDiscardTurn_ = gameManager_.GetIsDiscardTurn(); // 捨て札のターンかどうかを取得
 	isInputed_ = gameManager_.GetIsInputed(); // 入力がされたかどうかを取得
 	turnPlayerID_ = gameManager_.GetTurnPlayerID(); // 現在の手番のプレイヤーIDを取得
+	doubtPlayerID_ = gameManager_.GetDoubtPlayerID(); // ダウトを行うプレイヤーのIDを取得
+	winnerID_ = gameManager_.GetWinnerPlayerID(); // 勝者のプレイヤーIDを取得
 }
 
 void MainScene::MyPlayerCardSelect()
@@ -169,4 +181,14 @@ void MainScene::MyPlayerCardSelectReset()
 	}
 }
 
+void MainScene::MyDoubtSelect()
+{
+	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
+	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter) {
+		gameManager_.SetPlayerDoDoubt(true); // ダウトを行う
+	}
+	else if (gamepad_.wasPressedThisFrame.Button2 || InputSystem.Keyboard.wasPressedThisFrame.Space) {
+		gameManager_.SetPlayerDoDoubt(false); // ダウトを行わない
+	}
+}
 

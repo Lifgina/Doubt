@@ -7,6 +7,7 @@
 #include "../Class/View/MarkerView.h"
 #include "../Class/View/CheckerView.h"
 #include "../Class/View/CardCountView.h"
+#include "../Class/View/WinnerView.h"
 
 
 class MainScene : public HE::Scene
@@ -26,6 +27,7 @@ public:
 	void MonitorGameManager();
 	void MyPlayerCardSelect();
 	void MyPlayerCardSelectReset();
+	void MyDoubtSelect();
 	
 
 private:
@@ -35,9 +37,12 @@ private:
 	MarkerView markerView_; // マーカーを表示するクラス
 	CheckerView checkerView_[4]; // チェッカーを表示するクラス
 	CardcountView cardCountView_[4]; // カードの枚数を表示するクラス
+	WinnerView winnerView_; // 勝者を表示するクラス
 
 	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_; // 現在のプレイヤーID
+	int doubtPlayerID_; // ダウトを行うプレイヤーのID
+	int winnerID_; // 勝者のプレイヤーID
 	int selectingCardIndex_; // 選択中のカードのインデックス
 	int selectedCardIndex_[4]; // 選択されたカードのインデックス
 	int selectedCardCount_; // 選択されたカードの枚数

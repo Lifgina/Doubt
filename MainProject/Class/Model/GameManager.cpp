@@ -17,6 +17,7 @@ void GameManager::Initialize()
 	turnPlayerID_ = myPlayerID_;
 	cardDistributer_.DistributeCards(player_, playerCount_);
 	doubtJudgeNo_ =1;
+	winnerPlayerID_ = -1; // 初期状態では勝者は未定義
 	isDiscardTurn_ = true; // 初期状態では捨て札のターン
 	isInputed_ = false; // 入力がまだされていない状態
 	
@@ -24,6 +25,9 @@ void GameManager::Initialize()
 
 void GameManager::Update()
 {
+	if (winnerPlayerID_ != -1) {
+		return; // 勝者が決まっている場合は何もしない
+	}
 	if (isDiscardTurn_) {
 		DiscardTurn();
 	}
@@ -58,21 +62,21 @@ void GameManager::SetPlayerDiscard(int cardIndex[4])
 
 void GameManager::DoubtTurn()
 {
-	int doubtplayerID = turnPlayerID_ ; // ダウトを行うプレイヤーのID
+	doubtplayerID_ = turnPlayerID_ ; // ダウトを行うプレイヤーのID
 	//ダウトターンの処理
 	for(int i=0;i<playerCount_;i++){
-		doubtplayerID = (doubtplayerID + 1) % playerCount_; // 次のプレイヤーにターンを移す
-		if (doubtplayerID == myPlayerID_) {
+		doubtplayerID_ = (doubtplayerID_ + 1) % playerCount_; // 次のプレイヤーにターンを移す
+		if (doubtplayerID_ == myPlayerID_) {
 			if (!isInputed_) {
 				return;
 			}
 		}
 		else {
 			//プレイヤーの手札を取得
-			int hands = player_[doubtplayerID].GetPlayerHands();
+			int hands = player_[doubtplayerID_].GetPlayerHands();
 			CardData handcards[52];
 			for (int j = 0; j < hands; ++j) {
-				handcards[j] = player_[doubtplayerID].GetCard(j);
+				handcards[j] = player_[doubtplayerID_].GetCard(j);
 			}
 			//doubtJudgeNoのカードが何枚あるかをカウント
 			int count = 0;
@@ -115,17 +119,22 @@ void GameManager::DoubtTurn()
 		// ダウトチェックを行い、成功したら即座にDoubtTurnも終了
 		if (isDoubt_)
 		{
-			if (DoubtCheck(doubtplayerID, turnPlayerID_)) {
+			if (DoubtCheck(doubtplayerID_, turnPlayerID_)) {
 				Penalty(turnPlayerID_); // ダウトが成功した場合、手札を捨てたプレイヤーにペナルティを与える
 				isDoubt_ = false; // ダウトフラグをリセット
 				isInputed_ = false; // 入力フラグをリセット
 				
 			}
 			else {
-				Penalty(doubtplayerID); // ダウトが失敗した場合、ダウトしたプレイヤーにペナルティを与える
+				Penalty(doubtplayerID_); // ダウトが失敗した場合、ダウトしたプレイヤーにペナルティを与える
 			}
 		}
 		
+	}
+	// ダウトターンが終了した時、ターンプレイヤーの手札が0枚になった場合、勝者を設定
+	if (player_[turnPlayerID_].GetPlayerHands() == 0) {
+		winnerPlayerID_ = turnPlayerID_; // 勝者を設定
+		return; // 勝者が決まったので終了
 	}
 	turnPlayerID_ = (turnPlayerID_ + 1) % playerCount_; // 次のプレイヤーにターンを移す
 	doubtJudgeNo_ = (doubtJudgeNo_ % 13) + 1; // ダウト判定のカード番号を次の番号に更新（1-13の範囲で循環）

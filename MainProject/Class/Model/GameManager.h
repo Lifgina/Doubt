@@ -28,6 +28,8 @@ public:
 	bool GetIsDiscardTurn() const { return isDiscardTurn_; } // 捨て札のターンかどうかを取得
 	bool GetIsInputed() const { return isInputed_; } // 入力がされたかどうかを取得
 	int GetTurnPlayerID() const { return turnPlayerID_; } // 現在の手番のプレイヤーIDを取得
+	int GetDoubtPlayerID() const { return doubtplayerID_; } // ダウトを行うプレイヤーのIDを取得
+	int GetWinnerPlayerID() const { return winnerPlayerID_; } // 勝利したプレイヤーのIDを取得
 	PlayerData GetPlayerData(int playerID) const { return player_[playerID]; } // 指定されたプレイヤーのデータを取得
 
 
@@ -41,6 +43,8 @@ private:
 	int turnPlayerID_ ; // 現在の手番のプレイヤーID
 	int discardPlayerID_; // 捨て札を捨てたプレイヤーのID
 	int doubtJudgeNo_; //ダウト判定のカード番号
+	int doubtplayerID_; // ダウトを行うプレイヤーのID
+	int winnerPlayerID_; // 勝利したプレイヤーのID
 
 	bool isDiscardTurn_ ; // 捨て札を捨てる状況かどうか
 	bool isInputed_ ; // 入力されたかどうか
