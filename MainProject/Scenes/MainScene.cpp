@@ -165,6 +165,9 @@ void MainScene::MyPlayerCardSelect()
 	if (selectedCardCount_ >= 1) {
 	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter)
 	{
+		for (int i = 0; i < 4; i++) {
+			checkerView_[i].CheckerDelete(); // チェッカーを削除
+		}
 		gameManager_.SetPlayerDiscard(selectedCardIndex_); // 選択されたカードを捨て札に設定
 	}
 	}
