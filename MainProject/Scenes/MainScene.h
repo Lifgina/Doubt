@@ -10,6 +10,7 @@
 #include "../Class/View/WinnerView.h"
 #include "../Class/View/PlayerDoubtView.h"
 #include "../Class/View/DoubtJudgeNoView.h"
+#include "../Class/View/DiscardView.h"
 
 
 class MainScene : public HE::Scene
@@ -27,6 +28,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void MonitorGameManager();
+	void MonitorDiscard();
 	void MyPlayerCardSelect();
 	void MyPlayerCardSelectReset();
 	void MyDoubtSelect();
@@ -42,7 +44,9 @@ private:
 	WinnerView winnerView_; // 勝者を表示するクラス
 	PlayerDoubtView playerDoubtView_; // ダウトのメニューを表示するクラス
 	DoubtJudgeNoView doubtJudgeNoView_; // ダウト判定のカード番号を表示するクラス
+	DiscardView discardView_; // 捨て札を表示するクラス
 
+	int playerCount_; // プレイヤーの人数
 	int myPlayerID_; // 自分のプレイヤーID
 	int turnPlayerID_; // 現在のプレイヤーID
 	int doubtPlayerID_; // ダウトを行うプレイヤーのID
@@ -51,6 +55,7 @@ private:
 	int selectingCardIndex_; // 選択中のカードのインデックス
 	int selectedCardIndex_[4]; // 選択されたカードのインデックス
 	int selectedCardCount_; // 選択されたカードの枚数
+	int prevDiscardCount_ ; // 前回の捨て札の枚数
 	bool isDiscardTurn_ ; // 捨て札のターンかどうか
 	bool isInputed_; // 入力がされたかどうか
 

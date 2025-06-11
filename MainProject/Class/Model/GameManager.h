@@ -25,17 +25,22 @@ public:
 		myPlayerID_ = playerID;
 		return myPlayerID_; // 設定したプレイヤーIDを返す
 	}
+	int SetPlayerCount(int playerCount) {
+		playerCount_ = playerCount;
+		return playerCount_; // 設定したプレイヤー人数を返す
+	}
 	bool GetIsDiscardTurn() const { return isDiscardTurn_; } // 捨て札のターンかどうかを取得
 	bool GetIsInputed() const { return isInputed_; } // 入力がされたかどうかを取得
 	int GetTurnPlayerID() const { return turnPlayerID_; } // 現在の手番のプレイヤーIDを取得
 	int GetDoubtJudgeNo() const { return doubtJudgeNo_; } // ダウト判定のカード番号を取得
 	int GetDoubtPlayerID() const { return doubtplayerID_; } // ダウトを行うプレイヤーのIDを取得
 	int GetWinnerPlayerID() const { return winnerPlayerID_; } // 勝利したプレイヤーのIDを取得
+	int GetDiscardCount() const { return discardManager_.GetDiscardCount(); } // 捨て札の枚数を取得
 	PlayerData GetPlayerData(int playerID) const { return player_[playerID]; } // 指定されたプレイヤーのデータを取得
 
 
 private:
-	int playerCount_ =4; // プレイヤーの人数
+	int playerCount_ ; // プレイヤーの人数
 	PlayerData player_[4]; // プレイヤーのデータを管理する配列
 
 	int playerDiscardIndex_[4]; // プレイヤーが何番目のカードを捨てたかを管理する配列

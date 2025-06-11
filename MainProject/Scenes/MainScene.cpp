@@ -37,6 +37,7 @@ void MainScene::Load()
 	for  (int i = 0; i < 4; i++) {
 		cardCountView_[i].Load(); // カードの枚数を表示するクラスのロード
 	}
+	discardView_.Load(); // 捨て札を表示するクラスのロード
 	
 
 	Scene::Load();
@@ -46,12 +47,15 @@ void MainScene::Load()
 void MainScene::Initialize()
 {
 	myPlayerID_ = 0; // 自分のプレイヤーIDを設定
+	playerCount_ = 4; // プレイヤーの人数を設定
 	gameManager_.SetMyPlayerID(myPlayerID_); // 自分のプレイヤーIDを設定
+	gameManager_.SetPlayerCount(playerCount_); // プレイヤーの人数を設定
 	gameManager_.Initialize();
 	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
 	doubtJudgeNoView_.Initialize(); 
-	cardCountView_[0].Initialize(Math::Vector2(800.0f,360.0f)); 
+	discardView_.Initialize(playerCount_, myPlayerID_); // 捨て札を表示するクラスの初期化
+	cardCountView_[0].Initialize(Math::Vector2(800.0f,400.0f)); 
 	cardCountView_[1].Initialize(Math::Vector2(10.0, 200.0f));
 	cardCountView_[2].Initialize(Math::Vector2(400.0f, 10.0f));
 	cardCountView_[3].Initialize(Math::Vector2(1170.0f, 200.0f));
@@ -70,6 +74,7 @@ void MainScene::Update(float deltaTime)
 {
 	gameManager_.Update();
 	MonitorGameManager();
+	MonitorDiscard();
 	for (int i = 0; i < 4; i++) {
 		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
 	}
@@ -97,6 +102,21 @@ void MainScene::MonitorGameManager()
 	doubtPlayerID_ = gameManager_.GetDoubtPlayerID(); // ダウトを行うプレイヤーのIDを取得
 	doubtJudgeNo_ = gameManager_.GetDoubtJudgeNo(); // ダウト判定のカード番号を取得
 	winnerID_ = gameManager_.GetWinnerPlayerID(); // 勝者のプレイヤーIDを取得
+}
+
+void MainScene::MonitorDiscard() {
+	if (prevDiscardCount_ != gameManager_.GetDiscardCount()) {
+		if (gameManager_.GetDiscardCount() == 0)
+		{
+			discardView_.ResetDiscard(); // 捨て札をクリア
+		}
+		else
+		{
+			discardView_.Discard(turnPlayerID_,gameManager_.GetDiscardCount()-prevDiscardCount_); // 捨て札を更新
+		}
+	}
+	prevDiscardCount_ = gameManager_.GetDiscardCount(); // 前回の捨て札の枚数を更新
+
 }
 
 void MainScene::MyPlayerCardSelect()
