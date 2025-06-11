@@ -19,8 +19,8 @@ void DoubtJudgeNoView::Load()
 
 void DoubtJudgeNoView::Initialize()
 {
-	sprite_.params.pos = Math::Vector2(700.0f, 200.0f); // スプライトの位置を設定
-	font_.params.posX = 700.0f+75.0f/2; // フォントの位置を設定
+	sprite_.params.pos = Math::Vector2(800.0f, 200.0f); // スプライトの位置を設定
+	font_.params.posX = 800.0f+75.0f/2; // フォントの位置を設定
 	font_.params.posY = 200.0f+50.0f; // フォントの位置を設定
 }
 
