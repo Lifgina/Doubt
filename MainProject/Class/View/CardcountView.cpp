@@ -8,7 +8,7 @@ using namespace HE;
 
 void CardcountView::Load()
 {
-	cardBackSprite_ = Sprite("");
+	cardBackSprite_ = Sprite("CardBack2.png");
 	RenderingPath->AddSprite(&cardBackSprite_, 0); // レンダリングパスに追加
 	cardCountsFont_.params.style = Font::AddFontStyle("Fonts/meiryob004.ttf");
 	cardCountsFont_.params.size = 36; // フォントサイズを設定

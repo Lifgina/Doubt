@@ -12,4 +12,5 @@ public:
 private:
 	HE::Sprite sprite_; 
 	HE::SpriteFont font_; 
+	HE::SpriteFont guideFont_; // ガイド用のフォント
 };
