@@ -14,12 +14,12 @@ void PlayerDoubtView::Load()
 		doubtText_[i].params.color = Color(0.0f, 0.0f, 0.0f); // フォントの色を設定
 		RenderingPath->AddFont(&doubtText_[i], 1000); // レンダリングパスに追加
 	}
-	doubtText_[0].params.posX = 800.0f; // ダウトメニューの位置を設定
-	doubtText_[0].params.posY = 360.0f; // ダウトメニューの位置を設定
-	doubtText_[1].params.posX = 800.0f; // ダウトメニューの位置を設定
-	doubtText_[1].params.posY = 400.0f; // ダウトメニューの位置を設定
-	doubtText_[2].params.posX = 800.0f; // ダウトメニューの位置を設定
-	doubtText_[2].params.posY = 440.0f; // ダウトメニューの位置を設定
+	doubtText_[0].params.posX = 600.0f; // ダウトメニューの位置を設定
+	doubtText_[0].params.posY = 400.0f; // ダウトメニューの位置を設定
+	doubtText_[1].params.posX = 600.0f; // ダウトメニューの位置を設定
+	doubtText_[1].params.posY = 440.0f; // ダウトメニューの位置を設定
+	doubtText_[2].params.posX = 600.0f; // ダウトメニューの位置を設定
+	doubtText_[2].params.posY = 480.0f; // ダウトメニューの位置を設定
 	
 }
 

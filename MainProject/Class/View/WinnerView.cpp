@@ -34,9 +34,9 @@ void WinnerView::ShowWinner(int winnerID)
 	if (winnerID < 0 || winnerID >= 4) {
 		return; // 無効なプレイヤーID
 	}
-	winnerFont_[0].SetText("Winner: Player " + std::to_string(winnerID + 1)); // 勝者のプレイヤーIDを表示
-	winnerFont_[1].SetText("Congratulations!"); // おめでとうメッセージを表示
-	toTitleFont_.SetText("決定ボタンでタイトルへ戻る"); // タイトルへ戻るメッセージを表示
+	winnerFont_[0].SetText(L"Winner: Player " + std::to_wstring(winnerID + 1)); // 勝者のプレイヤーIDを表示
+	winnerFont_[1].SetText(L"Congratulations!"); // おめでとうメッセージを表示
+	toTitleFont_.SetText(L"決定ボタンでタイトルへ戻る"); // タイトルへ戻るメッセージを表示
 	
 	
 
