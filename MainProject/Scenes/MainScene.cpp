@@ -31,6 +31,7 @@ void MainScene::Load()
 	winnerView_.Load(); 
 	playerDoubtView_.Load(); 
 	doubtJudgeNoView_.Load(); 
+	playerTurnView_.Load(); // プレイヤーのターンの案内を表示するクラスのロード
 	for (int i = 0; i < 4; i++) {
 		checkerView_[i].Load(); 
 	}
@@ -54,6 +55,7 @@ void MainScene::Initialize()
 	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
 	doubtJudgeNoView_.Initialize(); 
+	playerTurnView_.Initialize(); // プレイヤーのターンの案内を表示するクラスの初期化
 	discardView_.Initialize(playerCount_, myPlayerID_); // 捨て札を表示するクラスの初期化
 	cardCountView_[0].Initialize(Math::Vector2(800.0f,400.0f)); 
 	cardCountView_[1].Initialize(Math::Vector2(10.0, 200.0f));
@@ -89,10 +91,14 @@ void MainScene::Update(float deltaTime)
 		if (prevTurnPlayerID != turnPlayerID_) {
 			MyPlayerCardSelectReset(); // 新しい自分のターン開始時にリセット
 		}
+		playerTurnView_.ShowPlayerTurnUI();
 		MyPlayerCardSelect();
 	}
 	else if(doubtPlayerID_ == myPlayerID_){
 		MyDoubtSelect();
+	}
+	else {
+		playerTurnView_.HidePlayerTurnUI(); // 自分のターンでない場合は非表示
 	}
 	prevTurnPlayerID = turnPlayerID_;
 	Scene::Update(deltaTime);

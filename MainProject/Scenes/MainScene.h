@@ -11,6 +11,7 @@
 #include "../Class/View/PlayerDoubtView.h"
 #include "../Class/View/DoubtJudgeNoView.h"
 #include "../Class/View/DiscardView.h"
+#include "../Class/View/PlayerTurnView.h"
 
 
 class MainScene : public HE::Scene
@@ -45,6 +46,7 @@ private:
 	PlayerDoubtView playerDoubtView_; // ダウトのメニューを表示するクラス
 	DoubtJudgeNoView doubtJudgeNoView_; // ダウト判定のカード番号を表示するクラス
 	DiscardView discardView_; // 捨て札を表示するクラス
+	PlayerTurnView playerTurnView_; // プレイヤーのターンの案内を表示するクラス
 
 	int playerCount_; // プレイヤーの人数
 	int myPlayerID_; // 自分のプレイヤーID
