@@ -56,6 +56,7 @@ private:
 	int selectedCardIndex_[4]; // 選択されたカードのインデックス
 	int selectedCardCount_; // 選択されたカードの枚数
 	int prevDiscardCount_ ; // 前回の捨て札の枚数
+	int prevPlayerHands_; // 前フレームのプレイヤーの手札の枚数
 	bool isDiscardTurn_ ; // 捨て札のターンかどうか
 	bool isInputed_; // 入力がされたかどうか
 

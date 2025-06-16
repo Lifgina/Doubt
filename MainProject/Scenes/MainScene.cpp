@@ -72,6 +72,7 @@ void MainScene::Terminate()
 // updates the scene.
 void MainScene::Update(float deltaTime)
 {
+	static int prevTurnPlayerID = -1;
 	gameManager_.Update();
 	MonitorGameManager();
 	MonitorDiscard();
@@ -85,17 +86,25 @@ void MainScene::Update(float deltaTime)
 		return; // 勝者が決まったので終了
 	}
 	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
+		if (prevTurnPlayerID != turnPlayerID_) {
+			MyPlayerCardSelectReset(); // 新しい自分のターン開始時にリセット
+		}
 		MyPlayerCardSelect();
 	}
 	else if(doubtPlayerID_ == myPlayerID_){
 		MyDoubtSelect();
 	}
-	
+	prevTurnPlayerID = turnPlayerID_;
 	Scene::Update(deltaTime);
 }
 
 void MainScene::MonitorGameManager()
 {
+	//前フレームのプレイヤーの手札枚数と現在のプレイヤーの手札枚数を比較して、変化があった場合に手札を更新
+	if (prevPlayerHands_ != gameManager_.GetPlayerData(myPlayerID_).GetPlayerHands()) {
+		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
+		prevPlayerHands_ = gameManager_.GetPlayerData(myPlayerID_).GetPlayerHands(); // 前フレームの手札枚数を更新
+	}
 	isDiscardTurn_ = gameManager_.GetIsDiscardTurn(); // 捨て札のターンかどうかを取得
 	isInputed_ = gameManager_.GetIsInputed(); // 入力がされたかどうかを取得
 	turnPlayerID_ = gameManager_.GetTurnPlayerID(); // 現在の手番のプレイヤーIDを取得

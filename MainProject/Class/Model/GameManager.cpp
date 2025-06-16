@@ -69,85 +69,99 @@ void GameManager::SetPlayerDiscard(int cardIndex[4])
 
 void GameManager::DoubtTurn()
 {
-	doubtplayerID_ = turnPlayerID_ ; // ダウトを行うプレイヤーのID
-	//ダウトターンの処理
-	for(int i=0;i<playerCount_;i++){
-		doubtplayerID_ = (doubtplayerID_ + 1) % playerCount_; // 次のプレイヤーにターンを移す
-		if (doubtplayerID_ == myPlayerID_) {
-			if (!isInputed_) {
-				return;
-			}
-		}
-		else {
-			//プレイヤーの手札を取得
-			int hands = player_[doubtplayerID_].GetPlayerHands();
-			CardData handcards[52];
-			for (int j = 0; j < hands; ++j) {
-				handcards[j] = player_[doubtplayerID_].GetCard(j);
-			}
-			//doubtJudgeNoのカードが何枚あるかをカウント
-			int count = 0;
-			for (int j = 0; j < hands; ++j) {
-				if (handcards[j].GetRank() == doubtJudgeNo_) {
-					count++;
-				}
-			}
-			//countの値に応じた確率で、ダウトをするかどうかを決める
-			float doubtProbability = 0.0f;
-			if (count == 0) {
-				doubtProbability = 0.05f; // 0枚なら高確率でダウト
-			}
-			else if (count == 1) {
-				doubtProbability = 0.1f;
-			}
-			else if (count == 2) {
-				doubtProbability = 0.3f;
-			}
-			else if(count == 3){
-				doubtProbability = 0.8f; 
-			}
-			else {
-				doubtProbability = 1.0f; // 4枚なら必ずダウト
-			}
+    // 初回のみ: ダウト判定を始めるプレイヤーを決定
+    if (doubtplayerID_ == -1) {
+        doubtplayerID_ = (turnPlayerID_ + 1) % playerCount_;
+        isInputed_ = false;
+    }
 
-			// 乱数生成
-			static std::random_device rd;
-			static std::mt19937 gen(rd());
-			std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+    // 自分の番なら入力待ち
+    if (doubtplayerID_ == myPlayerID_) {
+        if (!isInputed_) {
+            // 入力待ち
+            return;
+        }
+    }
+    else if (!isInputed_) {
+        // AIのダウト判定
+        int hands = player_[doubtplayerID_].GetPlayerHands();
+        CardData handcards[52];
+        for (int j = 0; j < hands; ++j) {
+            handcards[j] = player_[doubtplayerID_].GetCard(j);
+        }
+        int count = 0;
+        for (int j = 0; j < hands; ++j) {
+            if (handcards[j].GetRank() == doubtJudgeNo_) {
+                count++;
+            }
+        }
+        float doubtProbability = 0.0f;
+        if (count == 0) {
+            doubtProbability = 0.05f;
+        }
+        else if (count == 1) {
+            doubtProbability = 0.1f;
+        }
+        else if (count == 2) {
+            doubtProbability = 0.3f;
+        }
+        else if (count == 3) {
+            doubtProbability = 0.8f;
+        }
+        else {
+            doubtProbability = 1.0f;
+        }
 
-			if (dist(gen) < doubtProbability) {
-				isDoubt_ = true; // ダウトするフラグを立てる
-			}
-			else {
-				isDoubt_ = false; // ダウトしないフラグを立てる
-			}
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+        std::uniform_real_distribution<float> dist(0.0f, 1.0f);
 
-		}
-		// ダウトチェックを行い、成功したら即座にDoubtTurnも終了
-		if (isDoubt_)
-		{
-			if (DoubtCheck(doubtplayerID_, turnPlayerID_)) {
-				Penalty(turnPlayerID_); // ダウトが成功した場合、手札を捨てたプレイヤーにペナルティを与える
-				isDoubt_ = false; // ダウトフラグをリセット
-				isInputed_ = false; // 入力フラグをリセット
-				
-			}
-			else {
-				Penalty(doubtplayerID_); // ダウトが失敗した場合、ダウトしたプレイヤーにペナルティを与える
-			}
-		}
-		
-	}
-	// ダウトターンが終了した時、ターンプレイヤーの手札が0枚になった場合、勝者を設定
-	if (player_[turnPlayerID_].GetPlayerHands() == 0) {
-		winnerPlayerID_ = turnPlayerID_; // 勝者を設定
-		return; // 勝者が決まったので終了
-	}
-	turnPlayerID_ = (turnPlayerID_ + 1) % playerCount_; // 次のプレイヤーにターンを移す
-	doubtJudgeNo_ = (doubtJudgeNo_ % 13) + 1; // ダウト判定のカード番号を次の番号に更新（1-13の範囲で循環）
-	isDiscardTurn_ = true; // ダウトターンが終了したら、次は捨て札のターンにする
+        isDoubt_ = (dist(gen) < doubtProbability);
+        isInputed_ = true; // AIは即決定
+    }
 
+    // ダウト判定
+    if (isInputed_) {
+        if (isDoubt_) {
+            if (DoubtCheck(doubtplayerID_, turnPlayerID_)) {
+                Penalty(turnPlayerID_);
+            }
+            else {
+                Penalty(doubtplayerID_);
+            }
+            // ターン終了処理
+            doubtplayerID_ = -1;
+            isDoubt_ = false;
+            isInputed_ = false;
+            if (player_[turnPlayerID_].GetPlayerHands() == 0) {
+                winnerPlayerID_ = turnPlayerID_;
+                return;
+            }
+            turnPlayerID_ = (turnPlayerID_ + 1) % playerCount_;
+            doubtJudgeNo_ = (doubtJudgeNo_ % 13) + 1;
+            isDiscardTurn_ = true;
+            return;
+        }
+        else {
+            // 次のプレイヤーへ
+            doubtplayerID_ = (doubtplayerID_ + 1) % playerCount_;
+            isInputed_ = false;
+            // 全員スキップした場合（元のターンプレイヤーに戻った）
+            if (doubtplayerID_ == turnPlayerID_) {
+                doubtplayerID_ = -1;
+                if (player_[turnPlayerID_].GetPlayerHands() == 0) {
+                    winnerPlayerID_ = turnPlayerID_;
+                    return;
+                }
+                turnPlayerID_ = (turnPlayerID_ + 1) % playerCount_;
+                doubtJudgeNo_ = (doubtJudgeNo_ % 13) + 1;
+                discardManager_.ClearCurrentDiscard();
+                isDiscardTurn_ = true;
+            }
+        }
+    }
 }
+
 
 void GameManager::SetPlayerDoDoubt(bool isDoubt)
 {
@@ -173,12 +187,23 @@ bool GameManager::DoubtCheck(int doubtPlayerID,int discardPlayerID)
 
 void GameManager::Penalty(int penaltyPlayer)
 {
-	//捨て札を全てペナルティを受けるプレイヤーの手札に加える
-	for (int i = 0; i < discardManager_.GetDiscardCount(); ++i) {
-		player_[penaltyPlayer].SetHand({ discardManager_.GetDiscard(i) });
-	}
-	// 捨て札をクリア
-	discardManager_.ClearDiscard(); // 捨て札をクリア
-	discardManager_.ClearCurrentDiscard(); // 現在の捨て札をクリア
+    // 現在の手札を取得
+    std::vector<CardData> newHand;
+    int handCount = player_[penaltyPlayer].GetPlayerHands();
+    for (int i = 0; i < handCount; ++i) {
+        newHand.push_back(player_[penaltyPlayer].GetCard(i));
+    }
+
+    // 捨て札をすべて追加
+    for (int i = 0; i < discardManager_.GetDiscardCount(); ++i) {
+        newHand.push_back(discardManager_.GetDiscard(i));
+    }
+
+    // 新しい手札で上書き
+    player_[penaltyPlayer].SetHand(newHand);
+
+    // 捨て札をクリア
+    discardManager_.ClearDiscard();
+    discardManager_.ClearCurrentDiscard();
 
 }

@@ -11,6 +11,11 @@ using namespace HE;
 
 void RandomCardSelect::CardSelect(int hands,int judgeNo,CardData cards[])
 {
+    // まず全て-1で初期化
+    for (int i = 0; i < 4; ++i) {
+        selectedCardIndex_[i] = -1;
+    }
+
     std::vector<int> correctIndices;
     for (int i = 0; i < hands; ++i) {
         if (cards[i].GetRank() == judgeNo) {
@@ -23,16 +28,11 @@ void RandomCardSelect::CardSelect(int hands,int judgeNo,CardData cards[])
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
 
     if (!correctIndices.empty() && dist(gen) < correctDiscardRate_) {
-        // 正しいカードを全て出す
-        for (size_t i = 0; i < correctIndices.size(); ++i) {
+        for (size_t i = 0; i < std::min<size_t>(correctIndices.size(), 4); ++i) {
             selectedCardIndex_[i] = correctIndices[i];
-        }
-        for (size_t i = correctIndices.size(); i < 4; ++i) {
-            selectedCardIndex_[i] = -1;
         }
     }
     else {
-        // 出す枚数を重み付きで決定
         float r = dist(gen);
         int numToSelect = 1;
         if (r < discard1Rate_) numToSelect = 1;
@@ -41,7 +41,6 @@ void RandomCardSelect::CardSelect(int hands,int judgeNo,CardData cards[])
         else numToSelect = 4;
         numToSelect = std::min(numToSelect, hands);
 
-        // ランダムにnumToSelect枚選ぶ
         std::vector<int> indices(hands);
         for (int i = 0; i < hands; ++i) indices[i] = i;
         std::shuffle(indices.begin(), indices.end(), gen);
@@ -49,11 +48,6 @@ void RandomCardSelect::CardSelect(int hands,int judgeNo,CardData cards[])
         for (int i = 0; i < numToSelect; ++i) {
             selectedCardIndex_[i] = indices[i];
         }
-        for (int i = numToSelect; i < 4; ++i) {
-            selectedCardIndex_[i] = -1;
-        }
     }
-
-
 }
 
