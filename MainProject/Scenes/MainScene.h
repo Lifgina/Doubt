@@ -50,6 +50,7 @@ private:
 	PlayerTurnView playerTurnView_; // プレイヤーのターンの案内を表示するクラス
 	TurnPlayerView turnPlayerView_; // 現在の手番のプレイヤーを表示するクラス
 
+	int maxCardsOnScreen_ = 25; // 画面上に表示する最大のカード枚数
 
 	int playerCount_; // プレイヤーの人数
 	int myPlayerID_; // 自分のプレイヤーID

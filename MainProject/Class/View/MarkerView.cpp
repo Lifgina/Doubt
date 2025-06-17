@@ -17,7 +17,7 @@ void MarkerView::Load()
 
 void MarkerView::UpdateMarker(Math::Vector2 cardpos)
 {
-	markerSprite_.params.pos = Math::Vector2(cardpos.x+75.0f/8, cardpos.y+150.0f); // マーカーの位置を更新
+	markerSprite_.params.pos = Math::Vector2(cardpos.x+75.0f/8, cardpos.y-25.0f); // マーカーの位置を更新
 	
 }
 

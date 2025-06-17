@@ -29,7 +29,13 @@ void PlayerHandView::UpdatePlayerHands(PlayerData playerdata_)
 			playerHandSprites_[i].params.pos = Math::Vector2(-1000.0f, 0.0f); // カードの位置を初期化
 		}
 		else {
-			playerHandSprites_[i].params.pos = Math::Vector2(50.0f * i, RenderingPath->GetLogicalHeight() - 200); // カードの位置を設定
+			if (i < 25) {
+				playerHandSprites_[i].params.pos = Math::Vector2(50.0f * i, RenderingPath->GetLogicalHeight() - 200); // カードの位置を設定
+			}
+			else {
+				playerHandSprites_[i].params.pos = Math::Vector2(50.0f * (i-25), RenderingPath->GetLogicalHeight() - 100); // カードの位置を設定
+			}
+			
 			int suit = playerdata_.GetCard(i).GetSuit(); // カードのスートを取得
 			playerHandSprites_[i].params.enableDrawRect(Rectf(
 				100.0f * (rank - 1), 150.0f * (suit), 100.0f, 150.0f
