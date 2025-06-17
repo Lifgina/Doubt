@@ -84,7 +84,9 @@ void MainScene::Update(float deltaTime)
 	doubtJudgeNoView_.UpdateDoubtJudgeNo(doubtJudgeNo_); // ダウト判定のカード番号を更新
 	if (winnerID_ != -1) {
 		winnerView_.ShowWinner(winnerID_); // 勝者を表示
-		//ここに後でタイトルへ戻る処理を追加する
+		if (InputSystem.Keyboard.wasReleasedThisFrame.Enter) {
+			SceneManager.SetNextScene(NextScene::TitleScene, 2.0f, Color(0, 0, 0));
+		}	
 		return; // 勝者が決まったので終了
 	}
 	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
