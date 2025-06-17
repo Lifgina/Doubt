@@ -32,6 +32,7 @@ void MainScene::Load()
 	playerDoubtView_.Load(); 
 	doubtJudgeNoView_.Load(); 
 	playerTurnView_.Load(); // プレイヤーのターンの案内を表示するクラスのロード
+	turnPlayerView_.Load(); // 現在の手番のプレイヤーを表示するクラスのロード
 	for (int i = 0; i < 4; i++) {
 		checkerView_[i].Load(); 
 	}
@@ -55,6 +56,7 @@ void MainScene::Initialize()
 	playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 	bg_.Initialize();
 	doubtJudgeNoView_.Initialize(); 
+	turnPlayerView_.Initialize(); // 現在の手番のプレイヤーを表示するクラスの初期化
 	playerTurnView_.Initialize(); // プレイヤーのターンの案内を表示するクラスの初期化
 	discardView_.Initialize(playerCount_, myPlayerID_); // 捨て札を表示するクラスの初期化
 	cardCountView_[0].Initialize(Math::Vector2(800.0f,400.0f)); 
@@ -78,6 +80,7 @@ void MainScene::Update(float deltaTime)
 	gameManager_.Update();
 	MonitorGameManager();
 	MonitorDiscard();
+	turnPlayerView_.UpdateTurnPlayerView(turnPlayerID_); // 現在の手番のプレイヤーを更新
 	for (int i = 0; i < 4; i++) {
 		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
 	}

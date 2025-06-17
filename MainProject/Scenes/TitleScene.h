@@ -18,6 +18,6 @@ public:
 
 private:
 	HE::Sprite bg_; // 背景を表示するスプライト
-
+	bool isPressed_; // ボタンが押されたかどうかを管理するフラグ
 
 };
