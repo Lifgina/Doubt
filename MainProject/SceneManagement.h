@@ -5,7 +5,8 @@
 
 enum class NextScene : int {
 	MainScene,
-	StartScene = MainScene
+	TitleScene,
+	StartScene = TitleScene
 };
 
 class SceneManagement : public HE::Application
