@@ -25,7 +25,7 @@ void TitleScene::ResizeLayout()
 void TitleScene::Load()
 {
 	bg_ = Sprite("Title.png");
-
+	bgmManager_.Load();
 
     Scene::Load();
 }
@@ -37,6 +37,7 @@ void TitleScene::Initialize()
 	bg_.params.pos = Math::Vector2(0.0f, 0.0f); // 背景の位置を設定
 	bg_.params.siz = Math::Vector2(1280.0f, 720.0f); // 背景のサイズを設定
 	RenderingPath->AddSprite(&bg_, 0); // レンダリングパスに追加
+	bgmManager_.PlayBGMFromTop(0); // タイトルシーンのBGMを再生
 }
 
 // releasing resources required for termination.

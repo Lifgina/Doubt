@@ -31,6 +31,7 @@ void MainScene::Load()
 	winnerView_.Load(); 
 	playerDoubtView_.Load(); 
 	doubtJudgeNoView_.Load(); 
+	bgmManager_.Load(); // BGMを管理するクラスのロード
 	gameLog_.Load(); // ゲームのログを表示するクラスのロード
 	playerTurnView_.Load(); // プレイヤーのターンの案内を表示するクラスのロード
 	turnPlayerView_.Load(); // 現在の手番のプレイヤーを表示するクラスのロード
@@ -64,6 +65,7 @@ void MainScene::Initialize()
 	cardCountView_[1].Initialize(Math::Vector2(10.0, 150.0f));
 	cardCountView_[2].Initialize(Math::Vector2(400.0f, 10.0f));
 	cardCountView_[3].Initialize(Math::Vector2(1170.0f, 150.0f));
+	bgmManager_.PlayBGMFromTop(1); // BGMを再生
 	for (int i = 0; i < playerCount_; i++) {
 		cardCountView_[i].SetPlayerID(i); // プレイヤーのIDを設定
 	}

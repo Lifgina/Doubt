@@ -14,6 +14,7 @@
 #include "../Class/View/PlayerTurnView.h"
 #include "../Class/View/TurnPlayerView.h"
 #include "../Class/View/GameLog.h"
+#include "../Class/View/BGMmanager.h"
 
 
 class MainScene : public HE::Scene
@@ -51,6 +52,7 @@ private:
 	PlayerTurnView playerTurnView_; // プレイヤーのターンの案内を表示するクラス
 	TurnPlayerView turnPlayerView_; // 現在の手番のプレイヤーを表示するクラス
 	GameLog gameLog_; // ゲームのログを表示するクラス
+	BGMmanager bgmManager_; // BGMを管理するクラス
 
 	int maxCardsOnScreen_ = 25; // 画面上に表示する最大のカード枚数
 
