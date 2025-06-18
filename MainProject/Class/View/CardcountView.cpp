@@ -25,6 +25,17 @@ void CardcountView::Initialize(Math::Vector2 position)
 
 }
 
+void CardcountView::SetPlayerID(int playerID)
+{
+	playerIDFont_.params.style = Font::AddFontStyle("Fonts/meiryob004.ttf");
+	playerIDFont_.params.size = 24; // フォントサイズを設定
+	playerIDFont_.params.color = Color(0.0f, 0.0f, 0.0f); // フォントの色を設定
+	playerIDFont_.params.posX = cardBackSprite_.params.pos.x-5.0f ; // プレイヤーIDの位置を設定
+	playerIDFont_.params.posY = cardBackSprite_.params.pos.y + 100.0f; // プレイヤーIDの位置を設定
+	playerIDFont_.SetText(L"プレイヤー" + std::to_wstring(playerID + 1)); // プレイヤーIDを表示
+	RenderingPath->AddFont(&playerIDFont_, 1000); // レンダリングパスに追加
+}
+
 void CardcountView::UpdateCardcount(int playerCardcount)
 {
 	cardCountsFont_.SetText(std::to_string(playerCardcount));

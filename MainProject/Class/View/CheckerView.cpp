@@ -17,7 +17,7 @@ void CheckerView::Load()
 
 void CheckerView::UpdateChecker(Math::Vector2 cardpos)
 {
-	checkerSprite_.params.pos = Math::Vector2(cardpos.x + 75.0f / 8, cardpos.y ); // チェッカーの位置を更新
+	checkerSprite_.params.pos = Math::Vector2(cardpos.x + 75.0f / 8, cardpos.y+5.0f ); // チェッカーの位置を更新
 }
 
 void CheckerView::CheckerDelete()

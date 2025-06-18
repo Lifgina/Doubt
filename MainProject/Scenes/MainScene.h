@@ -13,6 +13,7 @@
 #include "../Class/View/DiscardView.h"
 #include "../Class/View/PlayerTurnView.h"
 #include "../Class/View/TurnPlayerView.h"
+#include "../Class/View/GameLog.h"
 
 
 class MainScene : public HE::Scene
@@ -49,6 +50,7 @@ private:
 	DiscardView discardView_; // 捨て札を表示するクラス
 	PlayerTurnView playerTurnView_; // プレイヤーのターンの案内を表示するクラス
 	TurnPlayerView turnPlayerView_; // 現在の手番のプレイヤーを表示するクラス
+	GameLog gameLog_; // ゲームのログを表示するクラス
 
 	int maxCardsOnScreen_ = 25; // 画面上に表示する最大のカード枚数
 

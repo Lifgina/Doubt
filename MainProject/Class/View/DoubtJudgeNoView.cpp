@@ -27,7 +27,7 @@ void DoubtJudgeNoView::Initialize()
 	font_.params.posX = 800.0f+75.0f/2-9.0f; // フォントの位置を設定
 	font_.params.posY = 200.0f+30.0f; // フォントの位置を設定
 	guideFont_.params.posX = 815.0f; // フォントの位置を設定
-	guideFont_.params.posY = 175.0f; // フォントの位置を設定
+	guideFont_.params.posY = 300.0f; // フォントの位置を設定
 	guideFont_.SetText(L"Next"); // ガイドテキストを設定	
 }
 

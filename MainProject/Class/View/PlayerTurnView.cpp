@@ -16,8 +16,8 @@ void PlayerTurnView::Load()
 
 void PlayerTurnView::Initialize()
 {
-	playerTurnFont_.params.posX = 10.0f; // プレイヤーのターンの案内の位置を設定
-	playerTurnFont_.params.posY = 465.0f; // プレイヤーのターンの案内の位置を設定
+	playerTurnFont_.params.posX = 430.0f; // プレイヤーのターンの案内の位置を設定
+	playerTurnFont_.params.posY = 400.0f; // プレイヤーのターンの案内の位置を設定
 }
 
 void PlayerTurnView::ShowPlayerTurnUI()

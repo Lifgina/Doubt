@@ -8,7 +8,7 @@ using namespace HE;
 
 void BG::Load()
 {
-	sprite_ = Sprite("BG.jpg");
+	sprite_ = Sprite("BG.png");
 	RenderingPath->AddSprite(&sprite_, -100);
 }
 

@@ -31,6 +31,7 @@ void MainScene::Load()
 	winnerView_.Load(); 
 	playerDoubtView_.Load(); 
 	doubtJudgeNoView_.Load(); 
+	gameLog_.Load(); // ゲームのログを表示するクラスのロード
 	playerTurnView_.Load(); // プレイヤーのターンの案内を表示するクラスのロード
 	turnPlayerView_.Load(); // 現在の手番のプレイヤーを表示するクラスのロード
 	for (int i = 0; i < 4; i++) {
@@ -59,11 +60,13 @@ void MainScene::Initialize()
 	turnPlayerView_.Initialize(); // 現在の手番のプレイヤーを表示するクラスの初期化
 	playerTurnView_.Initialize(); // プレイヤーのターンの案内を表示するクラスの初期化
 	discardView_.Initialize(playerCount_, myPlayerID_); // 捨て札を表示するクラスの初期化
-	cardCountView_[0].Initialize(Math::Vector2(800.0f,400.0f)); 
-	cardCountView_[1].Initialize(Math::Vector2(10.0, 200.0f));
+	cardCountView_[0].Initialize(Math::Vector2(800.0f,380.0f)); 
+	cardCountView_[1].Initialize(Math::Vector2(10.0, 150.0f));
 	cardCountView_[2].Initialize(Math::Vector2(400.0f, 10.0f));
-	cardCountView_[3].Initialize(Math::Vector2(1170.0f, 200.0f));
-
+	cardCountView_[3].Initialize(Math::Vector2(1170.0f, 150.0f));
+	for (int i = 0; i < playerCount_; i++) {
+		cardCountView_[i].SetPlayerID(i); // プレイヤーのIDを設定
+	}
 	MyPlayerCardSelectReset();
 }
 
@@ -80,34 +83,57 @@ void MainScene::Update(float deltaTime)
 	gameManager_.Update();
 	MonitorGameManager();
 	MonitorDiscard();
-	turnPlayerView_.UpdateTurnPlayerView(turnPlayerID_); // 現在の手番のプレイヤーを更新
+	turnPlayerView_.UpdateTurnPlayerView(turnPlayerID_);
 	for (int i = 0; i < 4; i++) {
-		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands()); // カードの枚数を更新
+		cardCountView_[i].UpdateCardcount(gameManager_.GetPlayerData(i).GetPlayerHands());
 	}
-	doubtJudgeNoView_.UpdateDoubtJudgeNo(doubtJudgeNo_); // ダウト判定のカード番号を更新
+	doubtJudgeNoView_.UpdateDoubtJudgeNo(doubtJudgeNo_);
+
+	// ★ ダウト/スルー宣言ログ（宣言者IDを正しく渡す）
+	auto lastDoubtAction = gameManager_.GetLastDoubtAction();
+	if (lastDoubtAction.has_value()) {
+		int playerID = lastDoubtAction->first;
+		bool isDoubt = lastDoubtAction->second;
+		gameLog_.DoubtLog(playerID, isDoubt);
+		gameManager_.ResetLastDoubtAction();
+	}
+
+	// ★ PenaltyLogの出力
+	if (gameManager_.IsDoubtResultAvailable()) {
+		bool doubtCorrect = gameManager_.GetDoubtResult();
+		int doubtPlayerID = gameManager_.GetLastDoubtPlayerID();
+		if (doubtPlayerID != -1) {
+			gameLog_.PenaltyLog(doubtPlayerID, doubtCorrect);
+			gameManager_.ResetLastDoubtPlayerID();
+		}
+		gameManager_.ResetDoubtResult();
+	}
+
 	if (winnerID_ != -1) {
-		winnerView_.ShowWinner(winnerID_); // 勝者を表示
-		if (InputSystem.Keyboard.wasReleasedThisFrame.Enter) {
+		winnerView_.ShowWinner(winnerID_);
+		if (InputSystem.Keyboard.wasPressedThisFrame.Enter) {
 			SceneManager.SetNextScene(NextScene::TitleScene, 2.0f, Color(0, 0, 0));
-		}	
-		return; // 勝者が決まったので終了
+		}
+		return;
 	}
 	if (isDiscardTurn_ && (turnPlayerID_ == myPlayerID_)) {
 		if (prevTurnPlayerID != turnPlayerID_) {
-			MyPlayerCardSelectReset(); // 新しい自分のターン開始時にリセット
+			MyPlayerCardSelectReset();
 		}
 		playerTurnView_.ShowPlayerTurnUI();
 		MyPlayerCardSelect();
 	}
-	else if(doubtPlayerID_ == myPlayerID_){
+	else if (doubtPlayerID_ == myPlayerID_) {
 		MyDoubtSelect();
 	}
 	else {
-		playerTurnView_.HidePlayerTurnUI(); // 自分のターンでない場合は非表示
+		playerTurnView_.HidePlayerTurnUI();
 	}
 	prevTurnPlayerID = turnPlayerID_;
 	Scene::Update(deltaTime);
 }
+
+
 
 void MainScene::MonitorGameManager()
 {
@@ -132,12 +158,14 @@ void MainScene::MonitorDiscard() {
 		}
 		else
 		{
-			discardView_.Discard(turnPlayerID_,gameManager_.GetDiscardCount()-prevDiscardCount_); // 捨て札を更新
+			int discardNum = gameManager_.GetDiscardCount() - prevDiscardCount_;
+			discardView_.Discard(turnPlayerID_, discardNum); // 捨て札を更新
+			gameLog_.DiscardLog(turnPlayerID_, discardNum); // ★ログ出力
 		}
 	}
 	prevDiscardCount_ = gameManager_.GetDiscardCount(); // 前回の捨て札の枚数を更新
-
 }
+
 
 void MainScene::MyPlayerCardSelect()
 {
@@ -228,11 +256,11 @@ void MainScene::MyDoubtSelect()
 {
 	playerDoubtView_.ShowDoubtMenu(); // ダウトメニューを表示
 	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
-	if (gamepad_.leftStick.y>=0.3 || InputSystem.Keyboard.wasPressedThisFrame.Up) {
+	if (gamepad_.leftStick.y >= 0.3 || InputSystem.Keyboard.wasPressedThisFrame.Up) {
 		playerDoubtView_.HideDoubtMenu(); // ダウトメニューを非表示
 		gameManager_.SetPlayerDoDoubt(true); // ダウトを行う
 	}
-	else if (gamepad_.leftStick.y<=-0.3 || InputSystem.Keyboard.wasPressedThisFrame.Down) {
+	else if (gamepad_.leftStick.y <= -0.3 || InputSystem.Keyboard.wasPressedThisFrame.Down) {
 		playerDoubtView_.HideDoubtMenu(); // ダウトメニューを非表示
 		gameManager_.SetPlayerDoDoubt(false); // ダウトを行わない
 	}

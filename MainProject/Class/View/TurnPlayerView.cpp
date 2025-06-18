@@ -15,8 +15,8 @@ void TurnPlayerView::Initialize()
 {
 	turnPlayerFont_.params.size = 36; // フォントサイズを設定
 	turnPlayerFont_.params.color = Color(0.0f, 0.0f, 0.0f); // フォントの色を設定
-	turnPlayerFont_.params.posX = 1000.0f; 
-	turnPlayerFont_.params.posY = 100.0f; 
+	turnPlayerFont_.params.posX = 900.0f; 
+	turnPlayerFont_.params.posY = 50.0f; 
 	RenderingPath->AddFont(&turnPlayerFont_, 1000); // レンダリングパスに追加
 }
 

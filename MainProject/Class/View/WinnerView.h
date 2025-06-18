@@ -9,6 +9,7 @@ public:
 
 
 private:
-	HE::SpriteFont winnerFont_[2]; // 勝者を表示するフォント
+	HE::SpriteFont winnerFont_; // 勝者を表示するフォント
 	HE::SpriteFont toTitleFont_; // タイトルへ戻るフォント
+	HE::Sprite winnerBack_; // 勝者表示の背景スプライト
 };
