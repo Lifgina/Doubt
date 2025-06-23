@@ -15,6 +15,7 @@
 #include "../Class/View/TurnPlayerView.h"
 #include "../Class/View/GameLog.h"
 #include "../Class/View/BGMmanager.h"
+#include "../Class/View/SEmanager.h"
 
 
 class MainScene : public HE::Scene
@@ -53,6 +54,7 @@ private:
 	TurnPlayerView turnPlayerView_; // 現在の手番のプレイヤーを表示するクラス
 	GameLog gameLog_; // ゲームのログを表示するクラス
 	BGMmanager bgmManager_; // BGMを管理するクラス
+	SEmanager seManager_; // SEを管理するクラス
 
 	int maxCardsOnScreen_ = 25; // 画面上に表示する最大のカード枚数
 
@@ -69,6 +71,7 @@ private:
 	int prevPlayerHands_; // 前フレームのプレイヤーの手札の枚数
 	bool isDiscardTurn_ ; // 捨て札のターンかどうか
 	bool isInputed_; // 入力がされたかどうか
+	bool isPlayedAudio_ ; // オーディオが再生されたかどうか
 
 	float stickDeadZone_ = 0.2f; // スティックのデッドゾーン
 };

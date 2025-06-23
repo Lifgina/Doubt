@@ -8,7 +8,7 @@ public:
 	void PlayBGMFromTop(int BGMID);
 
 private:
-	int bgmCount_ = 2; // 管理するBGMの数
-	HE::Sound bgm_[2]; // BGMを管理するオブジェクト
+	int bgmCount_ = 3; // 管理するBGMの数
+	HE::Sound bgm_[3]; // BGMを管理するオブジェクト
 	int currentBGMID_ = -1; // 現在再生中のBGMのIDを管理する変数
 };

@@ -26,6 +26,7 @@ void TitleScene::Load()
 {
 	bg_ = Sprite("Title.png");
 	bgmManager_.Load();
+	seManager_.Load(); 
 
     Scene::Load();
 }
@@ -51,6 +52,7 @@ void TitleScene::Update(float deltaTime)
 {
 	if (!isPressed_) {
 		if (InputSystem.Keyboard.wasReleasedThisFrame.Enter) {
+			seManager_.SEPlay(0); // SEを再生
 			SceneManager.SetNextScene(NextScene::MainScene, 2.0f, Color(0, 0, 0)); // Enterキーが押されたらMainSceneに遷移
 			isPressed_ = true; // 1回だけ処理を行うためにフラグを立てる
 		}

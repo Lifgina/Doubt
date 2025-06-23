@@ -32,6 +32,7 @@ void MainScene::Load()
 	playerDoubtView_.Load(); 
 	doubtJudgeNoView_.Load(); 
 	bgmManager_.Load(); // BGMを管理するクラスのロード
+	seManager_.Load(); // SEを管理するクラスのロード
 	gameLog_.Load(); // ゲームのログを表示するクラスのロード
 	playerTurnView_.Load(); // プレイヤーのターンの案内を表示するクラスのロード
 	turnPlayerView_.Load(); // 現在の手番のプレイヤーを表示するクラスのロード
@@ -52,6 +53,7 @@ void MainScene::Initialize()
 {
 	myPlayerID_ = 0; // 自分のプレイヤーIDを設定
 	playerCount_ = 4; // プレイヤーの人数を設定
+	isPlayedAudio_ = false; // オーディオが再生されたかどうかを初期化
 	gameManager_.SetMyPlayerID(myPlayerID_); // 自分のプレイヤーIDを設定
 	gameManager_.SetPlayerCount(playerCount_); // プレイヤーの人数を設定
 	gameManager_.Initialize();
@@ -113,6 +115,18 @@ void MainScene::Update(float deltaTime)
 
 	if (winnerID_ != -1) {
 		winnerView_.ShowWinner(winnerID_);
+		if (winnerID_ == myPlayerID_) {
+			if (!isPlayedAudio_) {
+				bgmManager_.PlayBGMFromTop(2); // 勝利した場合、勝利BGMを再生
+				isPlayedAudio_ = true; // オーディオが再生されたフラグを立てる
+			}	
+		}
+		else {
+			if (!isPlayedAudio_) {
+				seManager_.SEPlay(4); // 敗北SEを再生
+				isPlayedAudio_ = true; // オーディオが再生されたフラグを立てる
+			}	
+		}
 		if (InputSystem.Keyboard.wasPressedThisFrame.Enter) {
 			SceneManager.SetNextScene(NextScene::TitleScene, 2.0f, Color(0, 0, 0));
 		}
@@ -178,10 +192,12 @@ void MainScene::MyPlayerCardSelect()
 
 
 	if (gamepad_.leftStick.x > stickDeadZone_ || InputSystem.Keyboard.wasPressedThisFrame.Right) {
+		seManager_.SEPlay(1); // SEを再生
 		selectingCardIndex_ += 1; // 右に移動
 		markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 	}
 	else if (gamepad_.leftStick.x < -stickDeadZone_ || InputSystem.Keyboard.wasPressedThisFrame.Left) {
+		seManager_.SEPlay(1); // SEを再生
 		selectingCardIndex_ -= 1; // 左に移動
 		markerView_.UpdateMarker(playerHandView_.GetCardPosition(selectingCardIndex_)); // マーカーの位置を更新
 	}
@@ -197,6 +213,7 @@ void MainScene::MyPlayerCardSelect()
 	}
 
 	if (gamepad_.wasPressedThisFrame.Button2 || InputSystem.Keyboard.wasPressedThisFrame.Space) {
+		seManager_.SEPlay(2); // チェッカーを置くSEを再生
 		//対応するボタンが押されたとき、selectedCardIndexの数値とselectedCardIndexの値を比較
 		bool isAlreadySelected = false;
 		for (int i = 0; i < selectedCardCount_; i++) {
@@ -234,6 +251,7 @@ void MainScene::MyPlayerCardSelect()
 	if (selectedCardCount_ >= 1) {
 	if (gamepad_.wasPressedThisFrame.Button1 || InputSystem.Keyboard.wasPressedThisFrame.Enter)
 	{
+		seManager_.SEPlay(3); // カードを捨てるSEを再生
 		playerHandView_.UpdatePlayerHands(gameManager_.GetPlayerData(myPlayerID_)); // 自分の手札を更新
 		for (int i = 0; i < 4; i++) {
 			checkerView_[i].CheckerDelete(); // チェッカーを削除
@@ -259,10 +277,12 @@ void MainScene::MyDoubtSelect()
 	playerDoubtView_.ShowDoubtMenu(); // ダウトメニューを表示
 	HE::Gamepad gamepad_ = InputSystem.Gamepad.ElementAtOrDefault(0);
 	if (gamepad_.leftStick.y >= 0.3 || InputSystem.Keyboard.wasPressedThisFrame.Up) {
+		seManager_.SEPlay(2); // SEを再生
 		playerDoubtView_.HideDoubtMenu(); // ダウトメニューを非表示
 		gameManager_.SetPlayerDoDoubt(true); // ダウトを行う
 	}
 	else if (gamepad_.leftStick.y <= -0.3 || InputSystem.Keyboard.wasPressedThisFrame.Down) {
+		seManager_.SEPlay(2); // SEを再生
 		playerDoubtView_.HideDoubtMenu(); // ダウトメニューを非表示
 		gameManager_.SetPlayerDoDoubt(false); // ダウトを行わない
 	}

@@ -10,6 +10,8 @@ void BGMmanager::Load()
 {
 	bgm_[0] = Sound("TitleBGM.wav",Sound::LoopCount::BGM);
 	bgm_[1] = Sound("MainBGM.wav", Sound::LoopCount::BGM);
+	bgm_[2] = Sound("WinBGM.wav", Sound::LoopCount::SE);
+
 }
 
 void BGMmanager::PlayBGMFromTop(int BGMID)
